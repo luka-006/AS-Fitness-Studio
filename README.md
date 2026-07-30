@@ -5,7 +5,8 @@ Handoff paket za novi agent / novi chat.
 - **Ne miješati** s Alive Fitness Gym repo/chatom.
 - Podaci: `CLIENT-DATA.md`
 - Skeleton upute: `PROMPT.md`
+- Stranica: `index.html`
 - Slike: `slike/`
-- Logo za cutout: `logo-raw.png`
+- Logo: `logo.png` (cutout iz `logo-raw.png`)
 
 Kad agent krene: izgradi one-page `index.html` po `PROMPT.md`, popuni iz `CLIENT-DATA.md`, isjeci logo, galerija bez outlinea + ambient blend.

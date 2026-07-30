@@ -37,7 +37,7 @@ Fitness studio na Pazdigradu u Splitu: funkcionalni treninzi, pilates, individua
 ## Brand / logo
 
 - `logo-raw.png` — službeni logo (narančasti A + sivi S + siluete + “Fitness Studio”)
-- **Uputa:** fino isjeci / remove light-gray BG → transparentni PNG (`logo.png`). Ako krug ne radi, koristi sam logo bez kruga.
+- **Uputa:** `logo.png` i `logo-clear.png` generirani auto-cutoutom iz `logo-raw.png` (2026-07-30). Accent primijenjen u `index.html`.
 - Accent iz loga: warm orange (npr. ~`#F07828` / `#FF8C42`) + charcoal
 
 ## Galerija (`slike/`)
@@ -57,11 +57,29 @@ Fitness studio na Pazdigradu u Splitu: funkcionalni treninzi, pilates, individua
 
 ## Još fali (opcionalno)
 
-- [ ] Instagram / Facebook URL
+- [ ] Facebook URL
 - [ ] Email
-- [ ] Transparentni `logo.png` (nakon cutouta)
-- [ ] Recenzije (ne izmišljati)
+
+## Recenzije (Google Business — Studio AS, 2026-07-30)
+
+**Ocjena:** 5.0 · 7 recenzija  
+**Izvor:** https://www.google.com/maps/place/Studio+AS/@43.5052107,16.4951924,17z
+
+| Autor | Tekst (sažetak) |
+|--------|-----------------|
+| Ana Dom | Privatni funkcionalni treninzi s Anom — izvrsno iskustvo, detaljna objašnjenja |
+| Miljana Dragovic | Kvalitetan trening, velik prostor, top trenerice — preporučuje |
+| Marija Radišić | Odlična atmosfera, Ana kombinira energiju i vrhunski trening |
+| Ana Matovac | Pozitivna atmosfera, prijateljski studio |
+| dalmatinac2010 | Odličan studio, 24h pristup dvorani |
+| Josip Sobin | Odličan studio, super instruktorice |
+| Google korisnik | Individualni treninzi s Anom — pažljiva, sprječava ozljede |
+
+## Instagram
+
+- https://www.instagram.com/as_studio_split/
 
 ## Build
 
-Slijedi `PROMPT.md` (fitness one-pager skeleton). Credit: Kasalo Digital → https://kasalo-digital.hr (+ `kasalo-logo.png` ako postoji).
+- `index.html` — one-pager (2026-07-30), skeleton po `PROMPT.md`
+- Credit: Kasalo Digital → https://kasalo-digital.hr (`kasalo-logo.png`)
