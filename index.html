@@ -94,7 +94,9 @@ nav.scrolled{box-shadow:0 8px 32px rgba(74,74,74,.14)}
   display:flex;align-items:center;gap:.55rem;flex-shrink:0;
   font-family:'Fraunces',serif;font-weight:600;font-size:1rem;color:var(--charcoal);
 }
-.nav-brand img{width:36px;height:36px;object-fit:contain}
+.brand-slot{flex:0 0 36px;width:36px;height:36px}
+.nav-brand .brand-text{opacity:0;transition:opacity .25s ease}
+body.logo-docked .nav-brand .brand-text{opacity:1}
 nav ul{display:flex;gap:1.35rem;list-style:none;min-width:0}
 nav ul a{font-size:.88rem;font-weight:500;color:var(--soft);transition:color .2s}
 nav ul a:hover{color:var(--accent)}
@@ -163,9 +165,26 @@ nav .cta-short{display:none}
 #hero{
   min-height:88vh;display:flex;align-items:center;
   position:relative;padding:7rem 0 4rem;
-  background:var(--bg-white);
+  background:var(--bg-white);overflow:hidden;
 }
 .hero-inner{max-width:46rem;position:relative;z-index:2;width:100%}
+body:not(.intro-ready) .hero-inner{opacity:0;transform:translateY(12px)}
+body.intro-ready .hero-inner{
+  opacity:1;transform:none;
+  transition:opacity .55s ease,transform .55s ease;
+}
+#floatLogo{
+  position:fixed;z-index:81;left:0;top:0;
+  width:min(300px,38vw);aspect-ratio:1/1;
+  pointer-events:none;opacity:0;
+  will-change:transform,width,opacity;
+}
+body.intro-ready #floatLogo{transition:opacity .5s ease}
+#floatLogo img{width:100%;height:100%;object-fit:contain;display:block}
+#floatLogo.docked{pointer-events:auto;cursor:pointer}
+@media(max-width:880px){
+  .nav-brand span.brand-text{display:none}
+}
 @media(max-width:640px){
   #hero{padding:6.5rem 0 3.5rem;min-height:auto}
   h1{font-size:clamp(2.2rem,10vw,3.2rem);word-break:break-word}
@@ -533,11 +552,15 @@ footer ul a:hover{color:var(--accent2)}
 </head>
 <body>
 
+<a id="floatLogo" href="#hero" aria-label="AS Fitness Studio, povratak na vrh">
+  <img src="logo.png" alt="" onerror="this.onerror=null;this.src='logo-clear.png'">
+</a>
+
 <!-- NAV -->
 <nav id="nav">
   <a class="nav-brand" href="#hero">
-    <img src="logo.png" alt="" onerror="this.onerror=null;this.src='logo-clear.png'">
-    <span>AS Fitness Studio</span>
+    <span class="brand-slot" aria-hidden="true"></span>
+    <span class="brand-text">AS Fitness Studio</span>
   </a>
   <ul>
     <li><a href="#o-nama">O nama</a></li>
@@ -985,13 +1008,73 @@ footer ul a:hover{color:var(--accent2)}
 </footer>
 
 <script>
-/* NAV shadow on scroll */
+/* MINI INTRO */
 (function(){
+  function start(){
+    document.body.classList.add('intro-ready');
+    window.dispatchEvent(new Event('introready'));
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',()=>requestAnimationFrame(start));
+  }else{
+    requestAnimationFrame(start);
+  }
+})();
+
+/* LOGO: hero pozadina → header na scroll */
+(function(){
+  const logo=document.getElementById('floatLogo');
   const nav=document.getElementById('nav');
-  if(!nav)return;
-  function onScroll(){nav.classList.toggle('scrolled',window.scrollY>40);}
+  const slot=document.querySelector('.brand-slot');
+  if(!logo||!slot)return;
+
+  const DOCK=110;
+  const mobile=()=>window.matchMedia('(max-width:880px)').matches;
+
+  function ease(t){return 1-(1-t)*(1-t);}
+
+  function targets(){
+    if(mobile()){
+      return{
+        start:{x:window.innerWidth*0.62,y:window.innerHeight*0.34,size:Math.min(260,window.innerWidth*0.55),opacity:.14},
+        end:{x:20,y:20,size:44,opacity:1}
+      };
+    }
+    const slotR=slot.getBoundingClientRect();
+    return{
+      start:{x:window.innerWidth*0.72,y:window.innerHeight*0.36,size:Math.min(300,window.innerWidth*0.34),opacity:.15},
+      end:{x:slotR.left+slotR.width/2,y:slotR.top+slotR.height/2,size:slotR.width,opacity:1}
+    };
+  }
+
+  let ticking=false;
+  function render(){
+    ticking=false;
+    if(!document.body.classList.contains('intro-ready'))return;
+    const y=window.scrollY;
+    const t=ease(Math.min(1,Math.max(0,y/DOCK)));
+    const {start,end}=targets();
+    const cx=start.x+(end.x-start.x)*t;
+    const cy=start.y+(end.y-start.y)*t;
+    const size=start.size+(end.size-start.size)*t;
+    const op=start.opacity+(end.opacity-start.opacity)*t;
+
+    logo.style.width=size+'px';
+    logo.style.height=size+'px';
+    logo.style.transform='translate3d('+(cx-size/2)+'px,'+(cy-size/2)+'px,0)';
+    logo.style.opacity=String(op);
+    logo.classList.toggle('docked',t>0.92);
+    document.body.classList.toggle('logo-docked',t>0.85);
+    if(nav)nav.classList.toggle('scrolled',y>40);
+  }
+
+  function onScroll(){
+    if(!ticking){ticking=true;requestAnimationFrame(render);}
+  }
+
   window.addEventListener('scroll',onScroll,{passive:true});
-  onScroll();
+  window.addEventListener('resize',render,{passive:true});
+  render();
 })();
 
 /* GALERIJA scroll crossfade */
