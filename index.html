@@ -169,20 +169,31 @@ nav .cta-short{display:none}
 }
 .hero-inner{max-width:46rem;position:relative;z-index:2;width:100%}
 .hero-inner > *{
-  opacity:0;transform:translateY(18px);
-  transition:opacity .7s ease,transform .7s ease;
+  opacity:0;
+  animation:heroIn .85s var(--ease) forwards;
 }
-body.intro-ready .hero-inner > *{opacity:1;transform:none}
-body.intro-ready .hero-inner > *:nth-child(1){transition-delay:.15s}
-body.intro-ready .hero-inner > *:nth-child(2){transition-delay:.28s}
-body.intro-ready .hero-inner > *:nth-child(3){transition-delay:.4s}
-body.intro-ready .hero-inner > *:nth-child(4){transition-delay:.52s}
+.hero-inner > *:nth-child(1){animation-delay:.25s}
+.hero-inner > *:nth-child(2){animation-delay:.45s}
+.hero-inner > *:nth-child(3){animation-delay:.65s}
+.hero-inner > *:nth-child(4){animation-delay:.85s}
+@keyframes heroIn{
+  from{opacity:0;transform:translateY(28px)}
+  to{opacity:1;transform:none}
+}
 #floatLogo{
   position:fixed;z-index:81;left:0;top:0;
   width:min(300px,38vw);aspect-ratio:1/1;
   pointer-events:none;opacity:0;
   will-change:transform,width,opacity;
 }
+#floatLogo.intro-on{
+  animation:logoIn 1s var(--ease) forwards;
+}
+@keyframes logoIn{
+  from{opacity:0;filter:blur(6px)}
+  to{opacity:.22;filter:none}
+}
+#floatLogo.is-live{animation:none;filter:none}
 #floatLogo img{width:100%;height:100%;object-fit:contain;display:block}
 #floatLogo.docked{pointer-events:auto;cursor:pointer}
 @media(max-width:880px){
@@ -255,25 +266,26 @@ body.intro-ready .hero-inner > *:nth-child(4){transition-delay:.52s}
   .service{flex-wrap:wrap}
 }
 
-/* GALERIJA — jednake ćelije + ambient */
+/* GALERIJA — velike slike, jedna ispod druge + ambient */
 #galerija{background:var(--bg-white)}
 .gallery-grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:1.4rem;
-  margin-top:2.5rem;
+  grid-template-columns:1fr;
+  gap:2.4rem;
+  max-width:920px;
+  margin:2.8rem auto 0;
 }
 .gallery-item{
   position:relative;
-  aspect-ratio:1/1;
-  border-radius:18px;
+  aspect-ratio:16/10;
+  border-radius:22px;
   overflow:hidden;
   background:var(--bg);
 }
 .gallery-item .gallery-ambient{
-  position:absolute;inset:-20%;z-index:0;pointer-events:none;
-  background:radial-gradient(ellipse 70% 65% at 50% 55%,rgba(232,120,48,.28),transparent 70%);
-  filter:blur(28px);
+  position:absolute;inset:-18%;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 75% 70% at 50% 55%,rgba(232,120,48,.3),transparent 72%);
+  filter:blur(32px);
 }
 .gallery-item img{
   position:relative;z-index:1;
@@ -281,12 +293,20 @@ body.intro-ready .hero-inner > *:nth-child(4){transition-delay:.52s}
   object-fit:cover;object-position:center;
   display:block;
 }
-@media(max-width:880px){
-  .gallery-grid{grid-template-columns:repeat(2,1fr);gap:1rem}
+@media(max-width:640px){
+  .gallery-grid{gap:1.5rem}
+  .gallery-item{aspect-ratio:4/3;border-radius:16px}
 }
-@media(max-width:420px){
-  .gallery-grid{gap:.75rem}
+
+/* SCROLL REVEAL */
+.rv{
+  opacity:0;transform:translateY(28px);
+  transition:opacity .7s var(--ease),transform .7s var(--ease);
 }
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.1s}
+.rv.d2{transition-delay:.2s}
+.rv.d3{transition-delay:.3s}
 
 /* PROCES */
 #proces{background:var(--bg)}
@@ -685,35 +705,35 @@ footer ul a:hover{color:var(--accent2)}
       <h2>Pogled u studio</h2>
     </div>
     <div class="gallery-grid">
-      <div class="gallery-item">
+      <div class="gallery-item rv">
         <div class="gallery-ambient" aria-hidden="true"></div>
         <img src="slike/06-as-zid.jpg" alt="" loading="lazy" decoding="async">
       </div>
-      <div class="gallery-item">
+      <div class="gallery-item rv d1">
         <div class="gallery-ambient" aria-hidden="true"></div>
         <img src="slike/04-dvorana.jpg" alt="" loading="lazy" decoding="async">
       </div>
-      <div class="gallery-item">
+      <div class="gallery-item rv">
         <div class="gallery-ambient" aria-hidden="true"></div>
         <img src="slike/07-dvorana-2.jpg" alt="" loading="lazy" decoding="async">
       </div>
-      <div class="gallery-item">
+      <div class="gallery-item rv d1">
         <div class="gallery-ambient" aria-hidden="true"></div>
         <img src="slike/05-bucice.jpg" alt="" loading="lazy" decoding="async">
       </div>
-      <div class="gallery-item">
+      <div class="gallery-item rv">
         <div class="gallery-ambient" aria-hidden="true"></div>
         <img src="slike/03-plates.jpg" alt="" loading="lazy" decoding="async">
       </div>
-      <div class="gallery-item">
+      <div class="gallery-item rv d1">
         <div class="gallery-ambient" aria-hidden="true"></div>
         <img src="slike/08-oprema.jpg" alt="" loading="lazy" decoding="async">
       </div>
-      <div class="gallery-item">
+      <div class="gallery-item rv">
         <div class="gallery-ambient" aria-hidden="true"></div>
         <img src="slike/02-doit.jpg" alt="" loading="lazy" decoding="async">
       </div>
-      <div class="gallery-item">
+      <div class="gallery-item rv d1">
         <div class="gallery-ambient" aria-hidden="true"></div>
         <img src="slike/01-wc.jpg" alt="" loading="lazy" decoding="async">
       </div>
@@ -1025,77 +1045,98 @@ footer ul a:hover{color:var(--accent2)}
 </footer>
 
 <script>
-/* MINI INTRO */
-(function(){
-  function start(){
-    document.body.classList.add('intro-ready');
-    window.dispatchEvent(new Event('introready'));
-  }
-  function kick(){
-    requestAnimationFrame(()=>requestAnimationFrame(()=>setTimeout(start,80)));
-  }
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',kick);
-  }else{
-    kick();
-  }
-})();
-
-/* LOGO: hero pozadina → header na scroll */
+/* INTRO + LOGO DOCK */
 (function(){
   const logo=document.getElementById('floatLogo');
   const nav=document.getElementById('nav');
   const slot=document.querySelector('.brand-slot');
   if(!logo||!slot)return;
 
-  const DOCK=140;
+  const DOCK=160;
   const mobile=()=>window.matchMedia('(max-width:880px)').matches;
-
   function ease(t){return 1-(1-t)*(1-t);}
 
   function targets(){
     if(mobile()){
       return{
-        start:{x:window.innerWidth*0.72,y:window.innerHeight*0.28,size:Math.min(220,window.innerWidth*0.48),opacity:.18},
+        start:{x:window.innerWidth*0.72,y:window.innerHeight*0.28,size:Math.min(220,window.innerWidth*0.48),opacity:.22},
         end:{x:28,y:22,size:40,opacity:1}
       };
     }
     const slotR=slot.getBoundingClientRect();
     return{
-      start:{x:window.innerWidth*0.74,y:window.innerHeight*0.38,size:Math.min(280,window.innerWidth*0.32),opacity:.18},
+      start:{x:window.innerWidth*0.74,y:window.innerHeight*0.38,size:Math.min(280,window.innerWidth*0.32),opacity:.22},
       end:{x:slotR.left+slotR.width/2,y:slotR.top+slotR.height/2,size:slotR.width,opacity:1}
     };
   }
 
+  let live=false;
   let ticking=false;
-  function render(){
-    ticking=false;
-    if(!document.body.classList.contains('intro-ready'))return;
-    const y=window.scrollY;
-    const t=ease(Math.min(1,Math.max(0,y/DOCK)));
+
+  function place(t){
     const {start,end}=targets();
     const cx=start.x+(end.x-start.x)*t;
     const cy=start.y+(end.y-start.y)*t;
     const size=start.size+(end.size-start.size)*t;
     const op=start.opacity+(end.opacity-start.opacity)*t;
-
     logo.style.width=size+'px';
     logo.style.height=size+'px';
     logo.style.transform='translate3d('+(cx-size/2)+'px,'+(cy-size/2)+'px,0)';
-    logo.style.opacity=String(op);
+    if(live)logo.style.opacity=String(op);
     logo.classList.toggle('docked',t>0.92);
     document.body.classList.toggle('logo-docked',t>0.85);
-    if(nav)nav.classList.toggle('scrolled',y>40);
+    if(nav)nav.classList.toggle('scrolled',window.scrollY>40);
+  }
+
+  function progress(){
+    return ease(Math.min(1,Math.max(0,window.scrollY/DOCK)));
+  }
+
+  function render(){
+    ticking=false;
+    place(progress());
   }
 
   function onScroll(){
+    if(!live)goLive();
     if(!ticking){ticking=true;requestAnimationFrame(render);}
   }
 
+  function goLive(){
+    if(live)return;
+    live=true;
+    logo.classList.remove('intro-on');
+    logo.classList.add('is-live');
+    place(progress());
+  }
+
+  /* park logo in start spot, then CSS fade-in (opacity via CSS only) */
+  place(0);
+  requestAnimationFrame(()=>{
+    logo.classList.add('intro-on');
+  });
+  setTimeout(goLive,1100);
   window.addEventListener('scroll',onScroll,{passive:true});
-  window.addEventListener('resize',render,{passive:true});
-  window.addEventListener('introready',render,{passive:true});
-  render();
+  window.addEventListener('resize',()=>{place(progress());},{passive:true});
+})();
+
+/* SCROLL REVEAL */
+(function(){
+  const els=[...document.querySelectorAll('.rv')];
+  if(!els.length)return;
+  if(!('IntersectionObserver' in window)){
+    els.forEach(el=>el.classList.add('in'));
+    return;
+  }
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+  els.forEach(el=>io.observe(el));
 })();
 
 /* FLOATING MENU */
