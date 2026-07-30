@@ -1074,6 +1074,7 @@ footer ul a:hover{color:var(--accent2)}
 
   window.addEventListener('scroll',onScroll,{passive:true});
   window.addEventListener('resize',render,{passive:true});
+  window.addEventListener('introready',render,{passive:true});
   render();
 })();
 
