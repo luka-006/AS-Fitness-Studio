@@ -104,32 +104,82 @@ nav ul a:hover{color:var(--accent)}
 nav .cta-short{display:none}
 @media(max-width:880px){
   nav{display:none}
-  .menu-fab{display:flex}
 }
-.menu-fab{
-  display:none;position:fixed;bottom:1.25rem;right:1.25rem;z-index:90;
-  width:56px;height:56px;border-radius:50%;
-  background:var(--accent);color:#fff;border:none;cursor:pointer;
-  align-items:center;justify-content:center;
-  box-shadow:0 8px 28px rgba(232,120,48,.4);
+.float-bar{
+  position:fixed;z-index:95;
+  left:50%;bottom:1.15rem;
+  transform:translateX(-50%);
+  display:flex;align-items:center;gap:.45rem;
+  width:max-content;max-width:calc(100% - 1.4rem);
+  padding:.4rem .4rem .4rem .55rem;
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--line);
+  border-radius:999px;
+  box-shadow:0 10px 36px rgba(74,74,74,.16);
+  backdrop-filter:blur(10px);
 }
-.menu-fab svg{width:22px;height:22px}
-.menu-fab.is-open{background:var(--charcoal)}
-.menu-panel{
-  position:fixed;inset:0;z-index:85;
-  background:rgba(255,255,255,.98);
-  padding:5.5rem 1.6rem 2rem;
+.float-bar-links{
+  display:flex;align-items:center;gap:.3rem;
+  min-width:0;
+}
+.float-chip{
+  display:inline-flex;align-items:center;gap:.35rem;
+  padding:.48rem .75rem;border-radius:999px;
+  font-size:.78rem;font-weight:600;color:var(--charcoal);
+  background:var(--bg);border:1px solid transparent;
+  white-space:nowrap;text-decoration:none;
+  transition:background .2s,color .2s,border-color .2s;
+}
+.float-chip:hover{background:var(--accent-bg);color:var(--accent);border-color:rgba(232,120,48,.2)}
+.float-chip svg{width:14px;height:14px;flex:0 0 auto}
+.float-chip .chip-label{max-width:9.5rem;overflow:hidden;text-overflow:ellipsis}
+.float-logo-wrap{position:relative;flex:0 0 auto}
+.float-logo-btn{
+  width:46px;height:46px;border-radius:50%;
+  border:1.5px solid var(--line);background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;padding:0;overflow:hidden;
+  transition:border-color .2s,box-shadow .2s,transform .2s;
+}
+.float-logo-btn img{width:78%;height:78%;object-fit:contain;display:block}
+.float-logo-btn:hover,.float-logo-btn[aria-expanded="true"]{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(232,120,48,.15);
+}
+.float-logo-btn[aria-expanded="true"]{transform:scale(1.04)}
+.float-menu{
+  position:absolute;right:0;bottom:calc(100% + .65rem);
+  width:min(240px,calc(100vw - 2rem));
+  padding:.55rem;
+  background:#fff;border:1px solid var(--line);border-radius:18px;
+  box-shadow:0 16px 40px rgba(74,74,74,.18);
   opacity:0;visibility:hidden;pointer-events:none;
-  transition:opacity .25s ease,visibility .25s;
+  transform:translateY(8px) scale(.98);
+  transform-origin:bottom right;
+  transition:opacity .2s ease,transform .2s ease,visibility .2s;
 }
-.menu-panel.open{opacity:1;visibility:visible;pointer-events:auto}
-.menu-panel ul{list-style:none;display:flex;flex-direction:column;gap:.25rem}
-.menu-panel a{
-  display:block;padding:.85rem 0;font-size:1.15rem;font-weight:600;
-  color:var(--charcoal);border-bottom:1px solid var(--line);
+.float-menu.open{
+  opacity:1;visibility:visible;pointer-events:auto;
+  transform:none;
 }
-.menu-panel a:hover{color:var(--accent)}
-.menu-panel .menu-cta{margin-top:1.5rem;display:flex;flex-direction:column;gap:.65rem}
+.float-menu a{
+  display:block;padding:.65rem .85rem;border-radius:12px;
+  font-size:.9rem;font-weight:600;color:var(--charcoal);
+  text-decoration:none;transition:background .15s,color .15s;
+}
+.float-menu a:hover,.float-menu a:focus-visible{
+  background:var(--accent-bg);color:var(--accent);outline:none;
+}
+.float-menu-label{
+  display:block;padding:.35rem .85rem .45rem;
+  font-size:.68rem;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--soft);
+}
+@media(max-width:520px){
+  .float-chip .chip-label{display:none}
+  .float-chip{padding:.55rem}
+  .float-bar{padding:.35rem;gap:.35rem;bottom:1rem}
+}
 
 /* BUTTONS */
 .btn{
@@ -641,21 +691,37 @@ footer ul a:hover{color:var(--accent2)}
   </div>
 </nav>
 
-<button type="button" class="menu-fab" id="menuFab" aria-label="Otvori izbornik" aria-expanded="false" aria-controls="menuPanel">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-</button>
-<div class="menu-panel" id="menuPanel" aria-hidden="true">
-  <ul>
-    <li><a href="#o-nama" class="menu-link">O nama</a></li>
-    <li><a href="#usluge" class="menu-link">Usluge</a></li>
-    <li><a href="#galerija" class="menu-link">Galerija</a></li>
-    <li><a href="#lokacija" class="menu-link">Lokacija</a></li>
-    <li><a href="#faq" class="menu-link">Pitanja</a></li>
-    <li><a href="#kontakt" class="menu-link">Kontakt</a></li>
-  </ul>
-  <div class="menu-cta">
-    <a class="btn btn-primary" href="tel:+385915597292">091 559 7292</a>
-    <a class="btn btn-ghost" href="#kontakt">Rezerviraj termin</a>
+<div class="float-bar" id="floatBar">
+  <div class="float-bar-links">
+    <a class="float-chip" href="#lokacija" title="Lokacija">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span class="chip-label">Vinogradska 76</span>
+    </a>
+    <a class="float-chip" href="tel:+385915597292" title="Nazovi">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <span class="chip-label">091 559 7292</span>
+    </a>
+    <a class="float-chip" href="https://www.instagram.com/as_studio_split/" target="_blank" rel="noopener noreferrer" title="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      <span class="chip-label">Instagram</span>
+    </a>
+  </div>
+  <div class="float-logo-wrap">
+    <button type="button" class="float-logo-btn" id="floatMenuBtn" aria-label="Izbornik sekcija" aria-expanded="false" aria-controls="floatMenu">
+      <img src="logo.png" alt="" onerror="this.onerror=null;this.src='logo-clear.png'">
+    </button>
+    <div class="float-menu" id="floatMenu" role="menu" aria-hidden="true">
+      <span class="float-menu-label">Sekcije</span>
+      <a href="#hero" role="menuitem">Početna</a>
+      <a href="#o-nama" role="menuitem">O nama</a>
+      <a href="#usluge" role="menuitem">Usluge</a>
+      <a href="#galerija" role="menuitem">Galerija</a>
+      <a href="#proces" role="menuitem">Kako početi</a>
+      <a href="#recenzije" role="menuitem">Recenzije</a>
+      <a href="#faq" role="menuitem">Pitanja</a>
+      <a href="#lokacija" role="menuitem">Lokacija</a>
+      <a href="#kontakt" role="menuitem">Kontakt</a>
+    </div>
   </div>
 </div>
 
@@ -1246,32 +1312,36 @@ footer ul a:hover{color:var(--accent2)}
   restart();
 })();
 
-/* FLOATING MENU */
+/* FLOATING BAR */
 (function(){
-  const fab=document.getElementById('menuFab');
-  const panel=document.getElementById('menuPanel');
-  if(!fab||!panel)return;
+  const btn=document.getElementById('floatMenuBtn');
+  const menu=document.getElementById('floatMenu');
+  const bar=document.getElementById('floatBar');
+  if(!btn||!menu||!bar)return;
 
   function close(){
-    fab.classList.remove('is-open');
-    fab.setAttribute('aria-expanded','false');
-    panel.classList.remove('open');
-    panel.setAttribute('aria-hidden','true');
-    document.body.style.overflow='';
+    menu.classList.remove('open');
+    menu.setAttribute('aria-hidden','true');
+    btn.setAttribute('aria-expanded','false');
   }
   function open(){
-    fab.classList.add('is-open');
-    fab.setAttribute('aria-expanded','true');
-    panel.classList.add('open');
-    panel.setAttribute('aria-hidden','false');
-    document.body.style.overflow='hidden';
+    menu.classList.add('open');
+    menu.setAttribute('aria-hidden','false');
+    btn.setAttribute('aria-expanded','true');
+  }
+  function toggle(){
+    menu.classList.contains('open')?close():open();
   }
 
-  fab.addEventListener('click',()=>{
-    panel.classList.contains('open')?close():open();
+  btn.addEventListener('click',e=>{
+    e.stopPropagation();
+    toggle();
   });
-  panel.querySelectorAll('.menu-link').forEach(a=>{
+  menu.querySelectorAll('a').forEach(a=>{
     a.addEventListener('click',close);
+  });
+  document.addEventListener('click',e=>{
+    if(!bar.contains(e.target))close();
   });
   document.addEventListener('keydown',e=>{
     if(e.key==='Escape')close();
