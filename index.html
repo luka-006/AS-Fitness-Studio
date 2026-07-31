@@ -284,20 +284,27 @@ nav .cta-short{display:none}
 .gallery-item{
   position:relative;
   background:transparent;
-  padding:2.8rem 1.6rem;
+  padding:3rem 1.8rem;
   overflow:visible;
 }
-.gallery-item .gallery-blur{
+/* Soft glow wrapper: blur hard-edges stay outside, mask fades into page */
+.gallery-ambient{
   position:absolute;z-index:0;pointer-events:none;
   left:50%;top:50%;
-  width:130%;height:130%;
-  max-width:none;
+  width:128%;height:122%;
   transform:translate(-50%,-50%);
+  overflow:hidden;
+  -webkit-mask-image:radial-gradient(ellipse 72% 68% at 50% 50%,#000 12%,#000 38%,rgba(0,0,0,.35) 58%,transparent 76%);
+  mask-image:radial-gradient(ellipse 72% 68% at 50% 50%,#000 12%,#000 38%,rgba(0,0,0,.35) 58%,transparent 76%);
+}
+.gallery-item .gallery-blur{
+  position:absolute;
+  inset:-35%;
+  width:170%;height:170%;
+  max-width:none;
   object-fit:cover;object-position:center;
-  filter:blur(40px) saturate(1.35) brightness(1.02);
-  opacity:.75;
-  -webkit-mask-image:radial-gradient(ellipse 78% 74% at 50% 50%,#000 28%,rgba(0,0,0,.55) 55%,transparent 82%);
-  mask-image:radial-gradient(ellipse 78% 74% at 50% 50%,#000 28%,rgba(0,0,0,.55) 55%,transparent 82%);
+  filter:blur(38px) saturate(1.3) brightness(1.04);
+  opacity:.85;
 }
 .gallery-item .gallery-photo{
   position:relative;z-index:1;
@@ -307,12 +314,9 @@ nav .cta-short{display:none}
 }
 @media(max-width:640px){
   .gallery-grid{gap:2.4rem}
-  .gallery-item{padding:2rem .5rem}
-  .gallery-item .gallery-blur{
-    width:140%;height:140%;
-    filter:blur(32px) saturate(1.3);
-    opacity:.8;
-  }
+  .gallery-item{padding:2.2rem .6rem}
+  .gallery-ambient{width:138%;height:128%}
+  .gallery-item .gallery-blur{filter:blur(30px) saturate(1.28);opacity:.9}
 }
 
 /* SCROLL REVEAL */
@@ -745,35 +749,51 @@ footer ul a:hover{color:var(--accent2)}
     </div>
     <div class="gallery-grid">
       <div class="gallery-item rv">
-        <img class="gallery-blur" src="slike/06-as-zid.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+        <div class="gallery-ambient" aria-hidden="true">
+          <img class="gallery-blur" src="slike/06-as-zid.jpg" alt="" loading="lazy" decoding="async">
+        </div>
         <img class="gallery-photo" src="slike/06-as-zid.jpg" alt="" loading="lazy" decoding="async">
       </div>
       <div class="gallery-item rv d1">
-        <img class="gallery-blur" src="slike/04-dvorana.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+        <div class="gallery-ambient" aria-hidden="true">
+          <img class="gallery-blur" src="slike/04-dvorana.jpg" alt="" loading="lazy" decoding="async">
+        </div>
         <img class="gallery-photo" src="slike/04-dvorana.jpg" alt="" loading="lazy" decoding="async">
       </div>
       <div class="gallery-item rv">
-        <img class="gallery-blur" src="slike/07-dvorana-2.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+        <div class="gallery-ambient" aria-hidden="true">
+          <img class="gallery-blur" src="slike/07-dvorana-2.jpg" alt="" loading="lazy" decoding="async">
+        </div>
         <img class="gallery-photo" src="slike/07-dvorana-2.jpg" alt="" loading="lazy" decoding="async">
       </div>
       <div class="gallery-item rv d1">
-        <img class="gallery-blur" src="slike/05-bucice.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+        <div class="gallery-ambient" aria-hidden="true">
+          <img class="gallery-blur" src="slike/05-bucice.jpg" alt="" loading="lazy" decoding="async">
+        </div>
         <img class="gallery-photo" src="slike/05-bucice.jpg" alt="" loading="lazy" decoding="async">
       </div>
       <div class="gallery-item rv">
-        <img class="gallery-blur" src="slike/03-plates.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+        <div class="gallery-ambient" aria-hidden="true">
+          <img class="gallery-blur" src="slike/03-plates.jpg" alt="" loading="lazy" decoding="async">
+        </div>
         <img class="gallery-photo" src="slike/03-plates.jpg" alt="" loading="lazy" decoding="async">
       </div>
       <div class="gallery-item rv d1">
-        <img class="gallery-blur" src="slike/08-oprema.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+        <div class="gallery-ambient" aria-hidden="true">
+          <img class="gallery-blur" src="slike/08-oprema.jpg" alt="" loading="lazy" decoding="async">
+        </div>
         <img class="gallery-photo" src="slike/08-oprema.jpg" alt="" loading="lazy" decoding="async">
       </div>
       <div class="gallery-item rv">
-        <img class="gallery-blur" src="slike/02-doit.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+        <div class="gallery-ambient" aria-hidden="true">
+          <img class="gallery-blur" src="slike/02-doit.jpg" alt="" loading="lazy" decoding="async">
+        </div>
         <img class="gallery-photo" src="slike/02-doit.jpg" alt="" loading="lazy" decoding="async">
       </div>
       <div class="gallery-item rv d1">
-        <img class="gallery-blur" src="slike/01-wc.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+        <div class="gallery-ambient" aria-hidden="true">
+          <img class="gallery-blur" src="slike/01-wc.jpg" alt="" loading="lazy" decoding="async">
+        </div>
         <img class="gallery-photo" src="slike/01-wc.jpg" alt="" loading="lazy" decoding="async">
       </div>
     </div>
