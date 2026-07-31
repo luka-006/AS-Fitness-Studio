@@ -1171,51 +1171,68 @@ footer ul a:hover{color:var(--accent2)}
 </footer>
 
 <script>
-/* INTRO + LOGO DOCK */
+/* INTRO + LOGO DOCK (hero ↔ header, reversible) */
 (function(){
   const logo=document.getElementById('floatLogo');
   const nav=document.getElementById('nav');
   const slot=document.querySelector('.brand-slot');
-  if(!logo||!slot)return;
+  const hero=document.getElementById('hero');
+  const floatBtn=document.getElementById('floatMenuBtn');
+  if(!logo||!hero)return;
 
-  const DOCK=160;
+  const DOCK=200;
   const mobile=()=>window.matchMedia('(max-width:880px)').matches;
-  function ease(t){return 1-(1-t)*(1-t);}
-
-  function targets(){
-    if(mobile()){
-      return{
-        start:{x:window.innerWidth*0.72,y:window.innerHeight*0.28,size:Math.min(220,window.innerWidth*0.48),opacity:.22},
-        end:{x:28,y:22,size:40,opacity:1}
-      };
-    }
-    const slotR=slot.getBoundingClientRect();
-    return{
-      start:{x:window.innerWidth*0.74,y:window.innerHeight*0.38,size:Math.min(280,window.innerWidth*0.32),opacity:.22},
-      end:{x:slotR.left+slotR.width/2,y:slotR.top+slotR.height/2,size:slotR.width,opacity:1}
-    };
-  }
+  const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));
+  const ease=t=>1-(1-t)*(1-t);
+  const scrollY=()=>window.scrollY||document.documentElement.scrollTop||0;
 
   let live=false;
   let ticking=false;
 
+  function dockTarget(){
+    if(!mobile()&&slot){
+      const r=slot.getBoundingClientRect();
+      if(r.width>0&&r.height>0){
+        return{x:r.left+r.width/2,y:r.top+r.height/2,size:Math.max(r.width,36),opacity:1};
+      }
+    }
+    if(floatBtn){
+      const r=floatBtn.getBoundingClientRect();
+      return{x:r.left+r.width/2,y:r.top+r.height/2,size:Math.max(r.width-4,40),opacity:1};
+    }
+    return{x:48,y:42,size:40,opacity:1};
+  }
+
+  function heroTarget(){
+    const r=hero.getBoundingClientRect();
+    const size=mobile()?Math.min(210,window.innerWidth*0.5):Math.min(280,window.innerWidth*0.32);
+    return{
+      x:r.left+r.width*(mobile()?0.78:0.82),
+      y:r.top+Math.min(r.height,window.innerHeight)*(mobile()?0.38:0.42),
+      size,
+      opacity:.2
+    };
+  }
+
   function place(t){
-    const {start,end}=targets();
-    const cx=start.x+(end.x-start.x)*t;
-    const cy=start.y+(end.y-start.y)*t;
-    const size=start.size+(end.size-start.size)*t;
-    const op=start.opacity+(end.opacity-start.opacity)*t;
+    const s=heroTarget();
+    const e=dockTarget();
+    const cx=s.x+(e.x-s.x)*t;
+    const cy=s.y+(e.y-s.y)*t;
+    const size=s.size+(e.size-s.size)*t;
+    const op=s.opacity+(e.opacity-s.opacity)*t;
+
     logo.style.width=size+'px';
     logo.style.height=size+'px';
     logo.style.transform='translate3d('+(cx-size/2)+'px,'+(cy-size/2)+'px,0)';
     if(live)logo.style.opacity=String(op);
     logo.classList.toggle('docked',t>0.92);
     document.body.classList.toggle('logo-docked',t>0.85);
-    if(nav)nav.classList.toggle('scrolled',window.scrollY>40);
+    if(nav)nav.classList.toggle('scrolled',scrollY()>40);
   }
 
   function progress(){
-    return ease(Math.min(1,Math.max(0,window.scrollY/DOCK)));
+    return ease(clamp(scrollY()/DOCK,0,1));
   }
 
   function render(){
@@ -1223,9 +1240,12 @@ footer ul a:hover{color:var(--accent2)}
     place(progress());
   }
 
-  function onScroll(){
+  function requestRender(){
     if(!live)goLive();
-    if(!ticking){ticking=true;requestAnimationFrame(render);}
+    if(!ticking){
+      ticking=true;
+      requestAnimationFrame(render);
+    }
   }
 
   function goLive(){
@@ -1236,14 +1256,17 @@ footer ul a:hover{color:var(--accent2)}
     place(progress());
   }
 
-  /* park logo in start spot, then CSS fade-in (opacity via CSS only) */
   place(0);
-  requestAnimationFrame(()=>{
-    logo.classList.add('intro-on');
-  });
+  requestAnimationFrame(()=>logo.classList.add('intro-on'));
   setTimeout(goLive,1100);
-  window.addEventListener('scroll',onScroll,{passive:true});
-  window.addEventListener('resize',()=>{place(progress());},{passive:true});
+
+  window.addEventListener('scroll',requestRender,{passive:true});
+  window.addEventListener('resize',requestRender,{passive:true});
+  window.addEventListener('scrollend',render,{passive:true});
+  window.addEventListener('hashchange',()=>setTimeout(requestRender,40));
+  logo.addEventListener('click',()=>{
+    [40,180,400,700].forEach(ms=>setTimeout(requestRender,ms));
+  });
 })();
 
 /* SCROLL REVEAL */
