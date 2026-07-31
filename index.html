@@ -551,21 +551,43 @@ footer ul a:hover{color:var(--accent2)}
 }
 .reviews-score .num{font-family:'Fraunces',serif;font-size:1.35rem;color:var(--accent)}
 .reviews-score .stars{color:var(--accent);letter-spacing:.08em}
-.reviews-grid{
-  display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem;margin-top:2rem;
-}
-@media(max-width:760px){.reviews-grid{grid-template-columns:1fr}}
+.reviews-rotator{max-width:640px;margin:2rem auto 0}
+.reviews-stage{position:relative;min-height:220px}
 .review-card{
-  background:var(--card);border-radius:16px;padding:1.5rem 1.6rem;
-  border:1px solid var(--line);
+  position:absolute;inset:0;
+  background:var(--card);border-radius:18px;padding:1.8rem 1.8rem 1.6rem;
+  border:1px solid var(--line);box-shadow:var(--shadow);
+  opacity:0;visibility:hidden;
+  transform:translateY(14px);
+  transition:opacity .55s var(--ease),transform .55s var(--ease),visibility .55s;
+  pointer-events:none;
+}
+.review-card.is-active{
+  position:relative;opacity:1;visibility:visible;
+  transform:none;pointer-events:auto;
+}
+.review-card.is-exit{
+  position:absolute;opacity:0;visibility:hidden;
+  transform:translateY(-10px);
 }
 .review-card .stars{color:var(--accent);font-size:.9rem;letter-spacing:.12em;margin-bottom:.7rem}
 .review-card blockquote{
-  color:var(--soft);font-size:.94rem;line-height:1.65;
-  margin:0 0 1rem;font-style:normal;
+  color:var(--soft);font-size:1.02rem;line-height:1.7;
+  margin:0 0 1.1rem;font-style:normal;
 }
-.review-card .author{font-weight:600;font-size:.9rem}
+.review-card .author{font-weight:600;font-size:.95rem}
 .review-card .when{color:var(--soft);font-size:.8rem;margin-top:.15rem}
+.reviews-dots{
+  display:flex;justify-content:center;gap:.5rem;margin-top:1.3rem;
+}
+.reviews-dots button{
+  width:8px;height:8px;border-radius:50%;border:0;padding:0;
+  background:rgba(74,74,74,.22);cursor:pointer;
+  transition:background .25s,transform .25s;
+}
+.reviews-dots button[aria-current="true"]{
+  background:var(--accent);transform:scale(1.25);
+}
 .reviews-cta{text-align:center;margin-top:2.2rem}
 .reviews-cta p{color:var(--soft);font-size:.88rem;margin-top:.8rem}
 </style>
@@ -779,49 +801,51 @@ footer ul a:hover{color:var(--accent2)}
     <div class="reviews-head rv">
       <span class="kicker">Recenzije</span>
       <h2>Što kažu na Googleu</h2>
-      <div class="reviews-score" aria-label="5.0 od 5 zvjezdica, 7 recenzija">
+      <div class="reviews-score" aria-label="5.0 od 5 zvjezdica">
         <span class="num">5.0</span>
         <span class="stars" aria-hidden="true">★★★★★</span>
-        <span>, 7 recenzija</span>
       </div>
     </div>
-    <div class="reviews-grid">
-      <article class="review-card rv">
+    <div class="reviews-rotator rv" id="reviewsRotator">
+      <div class="reviews-stage">
+      <article class="review-card is-active">
         <div class="stars" aria-label="5 zvjezdica">★★★★★</div>
         <blockquote>Imala sam nekoliko privatnih funkcionalnih treninga u AS studiju s Anom i iskustvo je bilo izvrsno! Ana je od samog početka posvetila vrijeme da me sasluša i razumije na čemu želim raditi, a svaku vježbu je detaljno objasnila prije nego što smo krenule.</blockquote>
         <div class="author">Ana Dom</div>
         <div class="when">Google, prije 10 mj.</div>
       </article>
-      <article class="review-card rv d1">
+      <article class="review-card">
         <div class="stars" aria-label="5 zvjezdica">★★★★★</div>
         <blockquote>Jako sam zadovoljna svojim iskustvom u ovoj teretani! Uzimala sam individualne treninge s Anom i ona je izvrsna trenerica. Nevjerojatno je pažljiva i uvijek se pobrine da moja forma bude savršena kako bi se spriječile ozljede.</blockquote>
         <div class="author">Google korisnik</div>
         <div class="when">Google, prije 6 mj.</div>
       </article>
-      <article class="review-card rv">
+      <article class="review-card">
         <div class="stars" aria-label="5 zvjezdica">★★★★★</div>
         <blockquote>Iako nije preopremljen studio pruža priliku za kvalitetan trening. Prostor za grupne treninge je prilično velik. Trenerice su top i posvećene su svakom članu. Super mjesto. Preporučujem!</blockquote>
         <div class="author">Miljana Dragovic</div>
         <div class="when">Google, prije 11 mj.</div>
       </article>
-      <article class="review-card rv d1">
+      <article class="review-card">
         <div class="stars" aria-label="5 zvjezdica">★★★★★</div>
         <blockquote>Treniram dugo i rijetko gdje sam osjetila ovakvu atmosferu. Ana kombinira odličnu energiju i vrhunski trening!</blockquote>
         <div class="author">Marija Radišić</div>
         <div class="when">Google, prije 10 mj.</div>
       </article>
-      <article class="review-card rv">
+      <article class="review-card">
         <div class="stars" aria-label="5 zvjezdica">★★★★★</div>
         <blockquote>Odličan fitness studio. Atmosfera je pozitivna i prijateljska. Trbušnjaci su zajamčeni i od treninga i smijeha.</blockquote>
         <div class="author">Ana Matovac</div>
         <div class="when">Google, prije 11 mj.</div>
       </article>
-      <article class="review-card rv d1">
+      <article class="review-card">
         <div class="stars" aria-label="5 zvjezdica">★★★★★</div>
         <blockquote>Odličan fitness studio. Posebno mi je super što mogu koristiti dvoranu 24 sata dnevno (osim par sati kad imaju grupne treninge).</blockquote>
         <div class="author">dalmatinac2010</div>
         <div class="when">Google, prije 11 mj.</div>
       </article>
+      </div>
+      <div class="reviews-dots" id="reviewsDots" role="tablist" aria-label="Recenzije"></div>
     </div>
     <div class="reviews-cta rv d2">
       <a class="btn btn-ghost" href="https://www.google.com/maps/place/Studio+AS/@43.5052107,16.4951924,17z/data=!4m8!3m7!1s0x13355fd3460fdc6b:0x50be6f4a5a97182b!8m2!3d43.5052107!4d16.4951924!16s%2Fg%2F11xv59rt09" target="_blank" rel="noopener noreferrer">Sve recenzije na Googleu</a>
@@ -1137,6 +1161,53 @@ footer ul a:hover{color:var(--accent2)}
     });
   },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
   els.forEach(el=>io.observe(el));
+})();
+
+/* RECENZIJE rotator */
+(function(){
+  const root=document.getElementById('reviewsRotator');
+  const dotsWrap=document.getElementById('reviewsDots');
+  if(!root||!dotsWrap)return;
+  const cards=[...root.querySelectorAll('.review-card')];
+  if(cards.length<2)return;
+
+  let i=0;
+  let timer=null;
+  const DELAY=5200;
+
+  cards.forEach((_,idx)=>{
+    const b=document.createElement('button');
+    b.type='button';
+    b.setAttribute('aria-label','Recenzija '+(idx+1));
+    if(idx===0)b.setAttribute('aria-current','true');
+    b.addEventListener('click',()=>go(idx,true));
+    dotsWrap.appendChild(b);
+  });
+  const dots=[...dotsWrap.querySelectorAll('button')];
+
+  function go(next,manual){
+    if(next===i)return;
+    const prev=cards[i];
+    i=(next+cards.length)%cards.length;
+    const cur=cards[i];
+    prev.classList.remove('is-active');
+    prev.classList.add('is-exit');
+    cur.classList.add('is-active');
+    cur.classList.remove('is-exit');
+    dots.forEach((d,di)=>d.setAttribute('aria-current',di===i?'true':'false'));
+    setTimeout(()=>prev.classList.remove('is-exit'),560);
+    if(manual)restart();
+  }
+
+  function tick(){go(i+1,false);}
+  function restart(){
+    clearInterval(timer);
+    timer=setInterval(tick,DELAY);
+  }
+
+  root.addEventListener('mouseenter',()=>clearInterval(timer));
+  root.addEventListener('mouseleave',restart);
+  restart();
 })();
 
 /* FLOATING MENU */
