@@ -145,6 +145,15 @@ nav .cta-short{display:none}
 .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
 .btn-call{background:var(--accent-bg);color:var(--accent);padding:.65rem 1.1rem;flex-shrink:0}
 .btn-call svg{width:17px;height:17px}
+.btn-mini{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:.2rem .7rem;margin:0 .15rem;vertical-align:baseline;
+  border-radius:999px;font-size:.78rem;font-weight:700;
+  background:var(--accent);color:#fff;border:none;
+  text-decoration:none;line-height:1.4;
+  transition:background .2s;
+}
+.btn-mini:hover{background:var(--accent2);color:#fff}
 @media(max-width:640px){
   .btn-call span{display:none}
   .btn-call{padding:.7rem .8rem}
@@ -879,7 +888,7 @@ footer ul a:hover{color:var(--accent2)}
       </div>
       <div class="faq-item">
         <button class="faq-q" type="button">Kako rezervirati termin?<span class="plus">+</span></button>
-        <div class="faq-a"><p>Nazovite nas na 091 559 7292 ili pošaljite upit putem kontakt forme na ovoj stranici.</p></div>
+        <div class="faq-a"><p>Nazovite nas na 091 559 7292 ili pošaljite upit putem kontakt forme <a class="btn-mini" href="#kontakt">ovdje</a>.</p></div>
       </div>
     </div>
   </div>
